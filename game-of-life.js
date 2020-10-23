@@ -15,14 +15,26 @@ if (!process.argv[3]) {
 const GENERATIONS = process.argv[2] || 3;
 const DELAY = process.argv[3] || 1;
 
-let originalBoard = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0],
-  [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+let fs = require("fs");
+let boardString;
+try {
+  boardString = fs.readFileSync("./board.txt").toString();
+} catch (e) {}
 
+let originalBoard = [];
+
+if (boardString) {
+  originalBoard = boardString.split("\n").map(row => row.split(""));
+  originalBoard = originalBoard.map(row => row.map(item => parseInt(item)));
+} else {
+  originalBoard = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0],
+    [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ];
+}
 let numberOfRows = originalBoard.length;
 let numberOfColumns = originalBoard[0].length;
 
